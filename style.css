@@ -20,6 +20,14 @@ button {
    margin: 0px 5px;
 }
 
+.twitter-hashtag-button {
+   position: relative;
+   top: 45%;
+   transform: translateY(-50%);
+   float: left;
+   margin: 0px 5px;
+}
+
 select {
    position: relative;
    top: 45%;

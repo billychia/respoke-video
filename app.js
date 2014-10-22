@@ -1,6 +1,6 @@
 var appid = "e2896b2a-d466-4f82-881f-c4ca08a83123"; // <-- your app ID here
 var username = "";
-var groupId = "defaultGroup";
+var groupId = "AstriCon";
 var friendId = "";
 var group = null;
 var call = null;
@@ -36,6 +36,7 @@ function myRespokeApp() {
         console.log('connect evt:', evt);
         ui.showConnectingStatus();
 
+        //join a group once connected
         console.log('joining a group now...');
         client.join({
             id: groupId,
@@ -101,6 +102,7 @@ function myRespokeApp() {
     // listen for the 'call' event
     client.listen('call', function(evt) {
         call = evt.call; // strore call object globally
+        friendId = evt.endpoint.id;
         evt.call.answer({
             onConnect: onConnect,
             onLocalMedia: onLocalVideo
@@ -112,6 +114,7 @@ function myRespokeApp() {
     // startCall / answer helper fucntions [onConnect, onLocalVideo]
     function onConnect(evt) {
         ui.setVideo('remoteVideoSource', evt.element);
+        ui.tweet();
     }
 
     function onLocalVideo(evt) {
@@ -189,6 +192,7 @@ var ui = {
             "<strong>" + groupId + "</strong>",
             " group"
         ];
+        
         var controlsHTML = [
             '<select id="friendList">',
             '  <option value="" disabled="disabled" selected="selected">Select a name to call</option>',
@@ -204,6 +208,13 @@ var ui = {
         $("#controls")
             .empty()
             .html(controlsHTML.join(''));
+    },
+
+    tweet: function () {
+        var tweetText = username + " was in a video call with " + friendId + " using @respoke";
+        var html = '<a href="https://twitter.com/intent/tweet?button_hashtag=AstriCon&text='+ tweetText + '"class="twitter-hashtag-button" data-related="billychia">Tweet #AstriCon</a>';
+        var script = "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
+        $("#controls").append(html).append(script);
     },
 
     showJoinAlert: function(endpointId) {
@@ -265,3 +276,4 @@ var ui = {
 
 ui.init();
 myRespokeApp();
+
