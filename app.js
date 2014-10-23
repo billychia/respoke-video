@@ -142,9 +142,9 @@ var ui = {
             .html("Not connected")
             .addClass("red");
         var controlsHTML = [
-            '<input placeholder="username" id="username" type="text" autofocus />',
+            '<input placeholder="Twitter Handle" id="username" type="text" autofocus />',
             '<button id="connectButton">Connect</button>',
-            '<div id="alert">Enter your name for endpoint ID</div>'
+            '<div id="alert">Enter your Twitter Handle for endpoint ID</div>'
         ];
         $("#controls")
             .empty()
@@ -211,6 +211,8 @@ var ui = {
     },
 
     tweet: function () {
+        username = (username.indexOf("@") === -1)?"@"+username:username;
+        friendId = (friendId.indexOf("@") === -1)?"@"+friendId:friendId;
         var tweetText = username + " was in a video call with " + friendId + " using @respoke";
         var html = '<a href="https://twitter.com/intent/tweet?button_hashtag=AstriCon&text='+ tweetText + '"class="twitter-hashtag-button" data-related="billychia">Tweet #AstriCon</a>';
         var script = "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>";
